@@ -16,7 +16,7 @@ export async function GET(req, res) {
     });
 
     const result = await cursor.toArray();
-    console.log(result);
+    // console.log(result);
     return NextResponse.json(result);
   } catch (err) {
     console.error(err); 

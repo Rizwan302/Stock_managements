@@ -7,7 +7,8 @@ export default function Home() {
   const [productFrom, setProductFrom] = useState({})
   const [product, setProduct] = useState([]);
   const [alert, setAlert] = useState("")
-  const [drop, setDrop] = useState([ "x,d ,"])
+  const [query, setQuery] = useState("")
+  const [drop, setDrop] = useState([])
 
 console.log(product)
   const fetchProduct = async () => {
@@ -56,10 +57,19 @@ console.log(product)
     }
   }
 
-
-
   const handelChange = (e) => {
     setProductFrom({ ...productFrom, [e.target.name]: e.target.value })
+  }
+
+  const searchData = async (e) => {
+    try {
+      setQuery(e.target.value)
+      const response = await fetch('http://localhost:3000/api/search?query='+query);
+      const resJson = await response.json();
+      setDrop(resJson);
+    } catch (error) {
+      console.error('Error fetching product data:', error);
+    }
   }
 
 
@@ -72,7 +82,7 @@ console.log(product)
         <div className=' bg-green-900 text-center text-white border-y-gray-700 w-5/6 my-5 mx-auto border-spacing-4'>{alert}</div>
         <h1 className="text-3xl font-semibold mb-4 my-5">Search a Product</h1>
         <div className="flex mb-6">
-          <input type="text" placeholder='Search for product' className=' flex-1 border border-gray-300 px-3' />
+          <input type="text" name='query' placeholder='Search for product' className=' flex-1 border border-gray-300 px-3' onChange={searchData} />
           <select name="" className='border border-gray-300 px-4 py-2'>
             <option value="">All</option>
             <option value="cat1">All 1</option>
@@ -81,8 +91,10 @@ console.log(product)
           
         </div>
         {drop.map((item)=>(
-            <div className=' inline-block'>
-              Drop down all 
+            <div className='flex w-full my-3 justify-between bg-blue-500 p-4'>
+              <span>{item.slug}</span>
+              <span>{item.quantity}</span>
+              <span>{item.price}</span>
             </div>
           ))}
 
