@@ -7,8 +7,9 @@ export default function Home() {
   const [productFrom, setProductFrom] = useState({})
   const [product, setProduct] = useState([]);
   const [alert, setAlert] = useState("")
+  const [drop, setDrop] = useState([ "x,d ,"])
 
-
+console.log(product)
   const fetchProduct = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/product');
@@ -77,7 +78,13 @@ export default function Home() {
             <option value="cat1">All 1</option>
             <option value="cat2">All 2</option>
           </select>
+          
         </div>
+        {drop.map((item)=>(
+            <div className=' inline-block'>
+              Drop down all 
+            </div>
+          ))}
 
         <h1 className="text-3xl font-semibold mb-4 my-5">Add a product</h1>
 
