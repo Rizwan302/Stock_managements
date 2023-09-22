@@ -9,9 +9,6 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [drop, setDrop] = useState([]);
 
-
-
-  console.log(product)
   const fetchProduct = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/product');
