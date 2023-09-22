@@ -12,7 +12,6 @@ export async function GET(req, res) {
     const query = {};
     const cursor = collection.find(query);
     const result = await cursor.toArray();
-    // console.log(result);
     return NextResponse.json(result)
   } catch(err) {
     console.log("Not Run", err)

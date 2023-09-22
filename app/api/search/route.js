@@ -2,7 +2,6 @@ const { MongoClient } = require("mongodb");
 const { NextResponse } = require("next/server");
 
 export async function GET(req, res) {
-  // const query =  
   const uri = "mongodb+srv://rizwanahmedg2020:rizwanahmedg2020@cluster0.cm5rke6.mongodb.net/?retryWrites=true&w=majority";
   const client = new MongoClient(uri);
   try {
@@ -16,10 +15,9 @@ export async function GET(req, res) {
     });
 
     const result = await cursor.toArray();
-    // console.log(result);
     return NextResponse.json(result);
   } catch (err) {
     console.error(err); 
-    return NextResponse.json({err}); // Return an error response
+    return NextResponse.json({err}); 
   } 
 }

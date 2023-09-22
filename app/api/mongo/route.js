@@ -11,7 +11,6 @@ export async function GET(req) {
     const movies = database.collection('managements');
     const query = {};
     const movie = await movies.findOne(query);
-    // console.log(movie);
     return NextResponse.json(movie)
   } catch {
     console.log("Not Run")
@@ -27,7 +26,6 @@ export async function POST(req) {
   try {
     const database = client.db('stock');
     const movies = database.collection('managements');
-    const query = {};
     const movie = await movies.insertOne(body);
     // console.log(movie);
     return NextResponse.json({ movie, ok: true })

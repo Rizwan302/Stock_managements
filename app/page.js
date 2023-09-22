@@ -1,16 +1,17 @@
 "use client"
-import Image from 'next/image'
 import Header from './commponents/Header'
 import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [productFrom, setProductFrom] = useState({})
   const [product, setProduct] = useState([]);
-  const [alert, setAlert] = useState("")
-  const [query, setQuery] = useState("")
-  const [drop, setDrop] = useState([])
+  const [alert, setAlert] = useState("");
+  const [query, setQuery] = useState("");
+  const [drop, setDrop] = useState([]);
 
-console.log(product)
+
+
+  console.log(product)
   const fetchProduct = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/product');
@@ -18,7 +19,7 @@ console.log(product)
         throw new Error('Network response was not ok');
       }
       const resJson = await response.json();
-  // Log the response to check its structure
+      // Log the response to check its structure
       setProduct(resJson);
     } catch (error) {
       console.error('Error fetching product data:', error);
@@ -29,8 +30,6 @@ console.log(product)
   useEffect(() => {
     fetchProduct();
   }, []);
-
-
 
   const addProduct = async (e) => {
     e.preventDefault();
@@ -44,7 +43,6 @@ console.log(product)
       });
 
       if (response.ok) {
-        console.log("Add A Product")
         setAlert("Product Successfully Add");
         setProductFrom({})
       }
@@ -57,14 +55,17 @@ console.log(product)
     }
   }
 
+
   const handelChange = (e) => {
-    setProductFrom({ ...productFrom, [e.target.name]: e.target.value })
+    setProductFrom({ ...productFrom, [e.target.name]: e.target.value });
+
   }
+
 
   const searchData = async (e) => {
     try {
       setQuery(e.target.value)
-      const response = await fetch('http://localhost:3000/api/search?query='+query);
+      const response = await fetch('http://localhost:3000/api/search?query=' + query);
       const resJson = await response.json();
       setDrop(resJson);
     } catch (error) {
@@ -77,26 +78,46 @@ console.log(product)
   return (
     <>
       <Header />
-
       <div className=" mx-auto container ">
         <div className=' bg-green-900 text-center text-white border-y-gray-700 w-5/6 my-5 mx-auto border-spacing-4'>{alert}</div>
         <h1 className="text-3xl font-semibold mb-4 my-5">Search a Product</h1>
         <div className="flex mb-6">
-          <input type="text" name='query' placeholder='Search for product' className=' flex-1 border border-gray-300 px-3' onChange={searchData} />
-          <select name="" className='border border-gray-300 px-4 py-2'>
-            <option value="">All</option>
-            <option value="cat1">All 1</option>
-            <option value="cat2">All 2</option>
-          </select>
-          
+          <div className="relative flex items-center w-full">
+            <input
+              type="text"
+              name="query"
+              placeholder="Search for product"
+              className="flex-1 border border-gray-300 px-3 py-2 pl-10 rounded-md"
+              onChange={searchData}
+            />
+            <svg
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="10" cy="10" r="7" />
+              <path d="M21 21l-5.2-5.2" />
+            </svg>
+          </div>
         </div>
-        {drop.map((item)=>(
-            <div className='flex w-full my-3 justify-between bg-blue-500 p-4'>
+
+        {drop.map((item) => (
+          <div className='flex w-full my-3 justify-between bg-blue-500 p-4 text-white text-center'>
+            <div className='flex items-center'>
               <span>{item.slug}</span>
-              <span>{item.quantity}</span>
-              <span>{item.price}</span>
             </div>
-          ))}
+            <div className='flex items-center'>
+              <span>{item.quantity}</span>
+            </div>
+            <div className='flex items-center'>
+              <span>${item.price}</span>
+            </div>
+          </div>
+        ))}
 
         <h1 className="text-3xl font-semibold mb-4 my-5">Add a product</h1>
 
@@ -167,6 +188,7 @@ console.log(product)
                   <td className="px-6 py-4 whitespace-nowrap">{item.slug}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.quantity}</td>
                   <td className="px-6 py-4 whitespace-nowrap">${item.price}</td>
+
                 </tr>
               ))}
             </tbody>
